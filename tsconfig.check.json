@@ -1,0 +1,10 @@
+{
+  "extends": "miaoda-miniprogram-devkit/tsconfig-base",
+  "include": ["./src", "./types"],
+  "exclude": ["./src/**/*.test.ts", "./src/**/*.spec.ts", "./src/client/supabase.ts"],
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

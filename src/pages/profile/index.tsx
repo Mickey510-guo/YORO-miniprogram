@@ -110,7 +110,7 @@ export default function Profile() {
   const archived = lines.filter((l) => l.archived)
 
   return (
-    <div className="min-h-screen paper-texture flex flex-col px-4 py-4 gap-5">
+    <div className="min-h-screen paper-texture flex flex-col px-4 py-4 gap-5 border-none border-[rgb(229,231,235)] border-[0px] bg-[#f6efdc] bg-none border-[rgb(229,231,235)]">
       {/* 头部 */}
       <div className="rounded-sketch bg-card border-2 border-border/30 shadow-sketch-sm p-4 flex items-center gap-3">
         <div className="w-14 h-14 rounded-full bg-muted border-2 border-primary flex items-center justify-center">
@@ -121,7 +121,6 @@ export default function Profile() {
           <p className="text-base text-muted-foreground">所有内容仅你可见</p>
         </div>
       </div>
-
       {/* 主线列表 */}
       <div className="rounded-sketch bg-card border-2 border-border/30 p-4 flex flex-col gap-3">
         <p className="text-xl text-foreground font-hand">我的主线</p>
@@ -155,7 +154,6 @@ export default function Profile() {
           </div>
         )}
       </div>
-
       {/* 入口列表 */}
       <div className="rounded-sketch bg-card border-2 border-border/30 p-2 flex flex-col">
         {[
@@ -166,7 +164,7 @@ export default function Profile() {
         ].map((item) => (
           <button key={item.title} type="button" className="press-sketch rounded-sketch-sm flex items-center gap-3 px-3 py-3" onClick={() => (item.action === 'export' ? handleExport() : Taro.navigateTo({ url: item.url! }))}>
             <div className={`${item.icon} w-7 h-7 text-primary flex-none`} />
-            <div className="flex-1 flex flex-col items-start gap-0.5">
+            <div className="flex-1 flex flex-col items-start gap-0.5 border-none border-[rgb(229,231,235)] border-[0px] bg-[#ffffff00] bg-none border-[rgb(229,231,235)]">
               <span className="text-xl text-foreground">{item.title}</span>
               <span className="text-base text-muted-foreground">{item.desc}</span>
             </div>
@@ -174,7 +172,6 @@ export default function Profile() {
           </button>
         ))}
       </div>
-
       {/* 皮肤与版本 */}
       <div className="rounded-sketch bg-muted border-2 border-dashed border-border/50 p-4 flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
@@ -183,7 +180,6 @@ export default function Profile() {
         </div>
         <span className="text-base text-muted-foreground">{fmt(todayStr())}</span>
       </div>
-
       {exporting && (
         <div className="fixed inset-0 z-50 bg-foreground/40 flex items-center justify-center">
           <div className="rounded-sketch bg-background border-2 border-primary shadow-sketch px-6 py-4 flex items-center gap-2">
@@ -193,5 +189,5 @@ export default function Profile() {
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -1,9 +1,11 @@
 // @title 起点模板库
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Taro from '@tarojs/taro'
-import { batchInsertNodes, createBranches, createMainline } from '@/db/api'
+import { batchInsertNodes, createBranches, createMainline, getMainlineDetail, getMainlines } from '@/db/api'
+import type { MainlineDetail } from '@/db/types'
 import { generateDraft } from '@/utils/planner'
 import { addDays, todayStr } from '@/utils/date'
+import Roadmap from '@/components/Roadmap'
 
 interface Template {
   name: string
@@ -22,10 +24,41 @@ const TEMPLATES: Template[] = [
 
 export default function Templates() {
   const [importing, setImporting] = useState<string | null>(null)
+  const [demoDetail, setDemoDetail] = useState<MainlineDetail | null>(null)
+  const [demoLoading, setDemoLoading] = useState(true)
   const isDemo = useMemo(() => {
     const params = Taro.getCurrentInstance().router?.params || {}
     return params.demo === '1'
   }, [])
+
+  useEffect(() => {
+    if (!isDemo) return
+    let alive = true
+    getMainlines()
+      .then((lines) => {
+        const first = lines[0]
+        if (!first) {
+          if (alive) setDemoLoading(false)
+          return
+        }
+        return getMainlineDetail(first.id).then((d) => {
+          if (alive) {
+            setDemoDetail(d)
+            setDemoLoading(false)
+          }
+        })
+      })
+      .catch(() => {
+        if (alive) setDemoLoading(false)
+      })
+    return () => {
+      alive = false
+    }
+  }, [isDemo])
+
+  function backToMine() {
+    Taro.navigateBack().catch(() => Taro.switchTab({ url: '/pages/home/index' }))
+  }
 
   async function handleImport(t: Template) {
     if (importing) return
@@ -68,16 +101,30 @@ export default function Templates() {
       </div>
 
       {isDemo && (
-        <div className="rounded-sketch bg-muted border-2 border-dashed border-border/50 p-4 flex flex-col gap-2">
-          <p className="text-lg text-foreground font-hand">这条示例路线是这样的</p>
-          <div className="flex flex-col gap-1">
-            <span className="text-base text-muted-foreground">· 一条主线走完整个备考周期，支线按科目展开</span>
-            <span className="text-base text-muted-foreground">· 走过的是实线，没走的是虚线，冬眠的是点线</span>
-            <span className="text-base text-muted-foreground">· 节点旁写的是做成了什么，不是学了多久</span>
+        <>
+          <div className="glass rounded-sketch-lg px-4 py-3 flex items-center gap-2">
+            <button type="button" className="press-sketch flex items-center gap-1" onClick={backToMine}>
+              <div className="i-lucide-arrow-left w-5 h-5 text-primary" />
+              <span className="text-lg text-primary">回到我的终点</span>
+            </button>
           </div>
-        </div>
+          {demoLoading ? (
+            <div className="flex flex-col items-center justify-center gap-3 py-16">
+              <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+              <p className="text-xl text-muted-foreground">正在铺开示例路线…</p>
+            </div>
+          ) : demoDetail ? (
+            <Roadmap detail={demoDetail} readOnly />
+          ) : (
+            <div className="glass rounded-sketch-lg flex flex-col items-center justify-center gap-3 py-16">
+              <div className="i-lucide-route w-14 h-14 text-muted-foreground" />
+              <p className="text-xl text-muted-foreground">暂时没有示例数据</p>
+            </div>
+          )}
+        </>
       )}
 
+      {!isDemo && (
       <div className="flex flex-col gap-3 pb-6">
         {TEMPLATES.map((t) => (
           <div key={t.name} className="rounded-sketch bg-card border-2 border-border/30 shadow-sketch-sm p-4 flex flex-col gap-2">
@@ -103,6 +150,7 @@ export default function Templates() {
           </div>
         ))}
       </div>
+      )}
     </div>
   )
 }

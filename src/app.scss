@@ -2,7 +2,7 @@
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
 
-/* 手绘风格 · 暖纸白 / 铅笔黑 / 旧纸灰 / 修正红 / 圆珠笔蓝
+/* 毛玻璃风格 · 浅天蓝 → 奶白渐变 / 半透明白玻璃卡 / 柔和阴影
    字体：小程序端需在 app.tsx 中通过 Taro.loadFontFace 加载同名字体，H5 端由下方 @font-face 生效 */
 @font-face {
   font-family: 'MuyaoSoftbrush';
@@ -19,128 +19,141 @@
 
 @layer base {
   :root {
-    /* 表面：暖纸底 + 略亮纸卡；文字用柔和铅笔黑而非纯黑 */
-    --background: 40 43% 98%;
-    --foreground: 0 0% 18%;
-    --card: 40 50% 99%;
-    --card-foreground: 0 0% 18%;
-    --popover: 40 50% 99%;
-    --popover-foreground: 0 0% 18%;
-    /* 主色即墨线本身：手绘墨绿描边与实心按钮（纸地图·墨绿皮肤） */
-    --primary: 160 27% 26%;
-    --primary-foreground: 40 43% 98%;
-    --secondary: 37 22% 88%;
-    --secondary-foreground: 0 0% 18%;
-    --muted: 37 25% 92%;
-    --muted-foreground: 0 0% 40%;
-    /* 强调即修正红，配深墨字以达标 */
-    --accent: 0 100% 65%;
-    --accent-foreground: 0 0% 12%;
-    --destructive: 0 72% 46%;
-    --destructive-foreground: 40 43% 98%;
-    --border: 160 27% 26% / 0.8;
-    --input: 160 27% 26% / 0.8;
-    --ring: 160 27% 26%;
-    --radius: 0.75rem;
-    /* 材质命名色：纸、旧纸灰、墨、修正红、圆珠笔蓝（墨=墨绿） */
-    --paper: 40 43% 98%;
-    --paper-gray: 37 20% 87%;
-    --ink: 160 27% 26%;
-    --mark-red: 0 100% 65%;
-    --pen-blue: 215 56% 40%;
-    --chart-1: 0 0% 18%;
-    --chart-2: 215 56% 40%;
-    --chart-3: 0 100% 65%;
-    --chart-4: 37 20% 70%;
-    --chart-5: 0 0% 55%;
-    --sidebar-background: 37 25% 94%;
-    --sidebar-foreground: 0 0% 18%;
-    --sidebar-primary: 0 0% 18%;
-    --sidebar-primary-foreground: 40 43% 98%;
-    --sidebar-accent: 37 22% 88%;
-    --sidebar-accent-foreground: 0 0% 18%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 215 56% 40%;
-  }
-
-  /* 暗色沿用纸墨调性：暖褐深底 + 粉笔白线，等于「黑板上的手绘」，不落回中性灰蓝 */
-  .dark {
-    --background: 36 14% 11%;
-    --foreground: 40 30% 92%;
-    --card: 34 13% 15%;
-    --card-foreground: 40 30% 92%;
-    --popover: 34 13% 15%;
-    --popover-foreground: 40 30% 92%;
-    --primary: 40 30% 92%;
-    --primary-foreground: 36 16% 12%;
-    --secondary: 36 10% 22%;
-    --secondary-foreground: 40 26% 88%;
-    --muted: 36 10% 18%;
-    --muted-foreground: 40 14% 68%;
-    --accent: 0 85% 62%;
-    --accent-foreground: 0 0% 12%;
-    --destructive: 0 65% 48%;
-    --destructive-foreground: 40 30% 96%;
-    --border: 40 12% 34%;
-    --input: 40 12% 34%;
-    --ring: 160 20% 46%;
-    /* 材质色翻转：墨线变粉笔白，旧纸灰变板面灰 */
-    --paper: 36 14% 11%;
-    --paper-gray: 36 10% 26%;
-    --ink: 160 20% 68%;
-    --mark-red: 0 85% 62%;
-    --pen-blue: 210 58% 68%;
-    --chart-1: 0 0% 24%;
+    /* 表面：浅天蓝底 + 半透明白玻璃卡（70%~85% 透明度），文字用柔和蓝灰而非纯黑 */
+    --background: 205 65% 96%;
+    --foreground: 214 28% 24%;
+    --card: 0 0% 100% / 0.78;
+    --card-foreground: 214 28% 24%;
+    --popover: 0 0% 100% / 0.85;
+    --popover-foreground: 214 28% 24%;
+    /* 主色：克制的浅天蓝（非高饱和、非绿色） */
+    --primary: 211 56% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 205 45% 92%;
+    --secondary-foreground: 214 28% 30%;
+    --muted: 208 40% 93%;
+    --muted-foreground: 214 16% 46%;
+    /* 强调：淡粉（用于「在走」节点与轻微强调） */
+    --accent: 342 70% 76%;
+    --accent-foreground: 342 40% 30%;
+    --destructive: 0 65% 62%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 40% 88%;
+    --input: 210 40% 88%;
+    --ring: 211 56% 52%;
+    --radius: 1rem;
+    /* 材质命名色：玻璃、浅灰蓝线、节点三态 */
+    --glass: 0 0% 100% / 0.72;
+    --ink: 214 28% 24%;
+    --mark-red: 342 70% 76%;
+    --pen-blue: 211 56% 52%;
+    --node-done: 210 78% 70%;
+    --node-active: 340 78% 80%;
+    --node-locked: 214 18% 82%;
+    --node-line: 214 26% 86%;
+    --chart-1: 211 56% 52%;
+    --chart-2: 210 78% 70%;
+    --chart-3: 340 78% 80%;
+    --chart-4: 214 18% 82%;
+    --chart-5: 214 16% 60%;
+    --sidebar-background: 205 45% 94%;
+    --sidebar-foreground: 214 28% 24%;
+    --sidebar-primary: 211 56% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 205 45% 92%;
+    --sidebar-accent-foreground: 214 28% 30%;
+    --sidebar-border: 210 40% 88%;
+    --sidebar-ring: 211 56% 52%;
   }
 
   page,
   body {
-    background-color: hsl(var(--background));
+    background-color: hsl(205 65% 95%);
     color: hsl(var(--foreground));
     font-family: 'ResourceHanRounded', -apple-system, 'PingFang SC', sans-serif;
   }
 }
 
 @layer utilities {
-  /* 核心视觉签名：无模糊硬偏移阴影，模拟贴在纸上的手绘纸片 */
-  .shadow-sketch { box-shadow: 4px 4px 0 0 hsl(var(--ink)); }
-  .shadow-sketch-sm { box-shadow: 2px 2px 0 0 hsl(var(--ink)); }
-  .shadow-sketch-red { box-shadow: 4px 4px 0 0 hsl(var(--mark-red)); }
-  .shadow-sketch-blue { box-shadow: 4px 4px 0 0 hsl(var(--pen-blue)); }
-  /* 纸张点阵纹理 */
+  /* 全局背景：浅天蓝 → 奶白柔和渐变，叠加淡模糊光斑形成层次（禁纯白、禁绿色） */
   .paper-texture {
-    background-color: hsl(var(--background));
-    background-image: radial-gradient(hsl(var(--paper-gray)) 1px, transparent 1px);
-    background-size: 18px 18px;
+    background:
+      radial-gradient(120px 120px at 14% 6%, hsl(200 90% 82% / 0.6), transparent 70%),
+      radial-gradient(150px 150px at 90% 14%, hsl(330 85% 90% / 0.5), transparent 72%),
+      radial-gradient(180px 180px at 46% 98%, hsl(198 80% 84% / 0.45), transparent 72%),
+      linear-gradient(180deg, hsl(205 72% 94%) 0%, hsl(42 55% 98%) 100%);
+    background-attachment: fixed;
   }
-  /* 手绘抖动圆角：四角半径不等，避免标准圆角的机械感 */
-  .rounded-sketch { border-radius: 14px 8px 16px 10px; }
-  .rounded-sketch-lg { border-radius: 26px 14px 30px 18px; }
-  /* 虚线分割线，像草稿本上的裁切线 */
-  .divider-dashed { border-bottom: 2px dashed hsl(var(--ink) / 0.55); }
-  /* 涂鸦下划线：手写标记感 */
+
+  /* 核心玻璃材质：半透明白底 + 背景模糊 + 浅色细描边 + 低透明柔和阴影 + 大圆角 */
+  .glass {
+    background-color: hsl(var(--glass));
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid hsl(0 0% 100% / 0.6);
+    box-shadow: 0 10px 34px -14px hsl(211 45% 55% / 0.28);
+  }
+  .glass-strong {
+    background-color: hsl(0 0% 100% / 0.86);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid hsl(0 0% 100% / 0.7);
+    box-shadow: 0 16px 44px -16px hsl(211 45% 50% / 0.32);
+  }
+
+  /* 柔和低透明阴影（沿用旧类名，全站自动获得柔和投影） */
+  .shadow-sketch { box-shadow: 0 12px 34px -14px hsl(211 45% 55% / 0.3); }
+  .shadow-sketch-sm { box-shadow: 0 6px 20px -12px hsl(211 45% 55% / 0.26); }
+  .shadow-sketch-red { box-shadow: 0 8px 24px -12px hsl(342 70% 65% / 0.32); }
+  .shadow-sketch-blue { box-shadow: 0 8px 24px -12px hsl(211 60% 60% / 0.32); }
+
+  /* 大圆角（沿用旧类名，改为干净的大圆角） */
+  .rounded-sketch { border-radius: 22px; }
+  .rounded-sketch-lg { border-radius: 30px; }
+  .rounded-sketch-sm { border-radius: 14px; }
+
+  /* 虚线分割线：低饱和浅灰蓝 */
+  .divider-dashed { border-bottom: 1px dashed hsl(var(--node-line)); }
+
+  /* 涂鸦下划线：改为柔和主色 */
   .underline-scribble {
-    border-bottom: 3px solid hsl(var(--mark-red) / 0.75);
+    border-bottom: 3px solid hsl(var(--primary) / 0.5);
     border-radius: 0 0 40% 60%;
   }
-  /* 贴纸轻微歪斜 */
+
   .tilt-left { transform: rotate(-1.5deg); }
   .tilt-right { transform: rotate(1.5deg); }
-  /* 纸片按压：位移 + 阴影缩短 */
-  .press-sketch { transition: transform 0.12s ease, box-shadow 0.12s ease; }
-  .press-sketch:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 0 hsl(var(--ink));
-  }
+
+  /* 按压：仅轻微提亮，不做位移/投影变化 */
+  .press-sketch { transition: filter 0.15s ease; }
+  .press-sketch:active { filter: brightness(1.06); }
+
   .font-hand { font-family: 'MuyaoSoftbrush', 'ResourceHanRounded', sans-serif; }
   .font-round { font-family: 'ResourceHanRounded', sans-serif; }
+
+  /* 路线图节点三态玻璃小球 */
+  .ball-done {
+    border: 2px solid hsl(var(--node-done));
+    background: radial-gradient(circle at 34% 28%, hsl(0 0% 100% / 0.95), hsl(var(--node-done) / 0.55) 60%, hsl(var(--node-done) / 0.3));
+    box-shadow: inset 1px 1px 2px hsl(0 0% 100% / 0.8), 0 2px 6px -2px hsl(var(--node-done) / 0.5);
+  }
+  .ball-active {
+    border: 2px solid hsl(var(--node-active));
+    background: radial-gradient(circle at 34% 28%, hsl(0 0% 100% / 0.95), hsl(var(--node-active) / 0.5) 60%, hsl(var(--node-active) / 0.28));
+    box-shadow: inset 1px 1px 2px hsl(0 0% 100% / 0.85), 0 0 12px hsl(var(--node-active) / 0.7);
+  }
+  .ball-locked {
+    border: 1.5px solid hsl(var(--node-locked));
+    background: hsl(0 0% 100% / 0.25);
+    box-shadow: inset 1px 1px 2px hsl(0 0% 100% / 0.6);
+  }
 }
 
 @keyframes sketch-wiggle { 0%, 100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
-@keyframes sketch-in { 0% { opacity: 0; transform: translate(-3px, 5px) rotate(-2deg); } 100% { opacity: 1; transform: translate(0, 0) rotate(0); } }
+@keyframes sketch-in { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
 
 .animate-wiggle { animation: sketch-wiggle 2.4s ease-in-out infinite; }
-.animate-sketch-in { animation: sketch-in 0.22s ease-out both; }
+.animate-sketch-in { animation: sketch-in 0.26s ease-out both; }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-wiggle,

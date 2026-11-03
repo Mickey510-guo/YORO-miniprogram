@@ -6,6 +6,7 @@ const pages = [
   'pages/diary/index',
   'pages/habits/index',
   'pages/stats/index',
+  'pages/schedule/index',
   'pages/profile/index',
   'pages/timer/index',
   'pages/templates/index',
@@ -15,28 +16,16 @@ const pages = [
 export default defineAppConfig({
   pages,
   tabBar: {
-    color: '#8A8578',
-    selectedColor: '#2F4F3F',
-    backgroundColor: '#FDFBF7',
-    borderStyle: 'black',
+    color: '#9AA7B8',
+    selectedColor: '#3B6FB0',
+    backgroundColor: '#EAF3FF',
+    borderStyle: 'white',
     list: [
       {
         pagePath: 'pages/home/index',
         text: '地图',
         iconPath: './assets/icons/map_unselected.png',
         selectedIconPath: './assets/icons/map_selected.png',
-      },
-      {
-        pagePath: 'pages/habits/index',
-        text: '习惯',
-        iconPath: './assets/icons/footprint_unselected.png',
-        selectedIconPath: './assets/icons/footprint_selected.png',
-      },
-      {
-        pagePath: 'pages/stats/index',
-        text: '看板',
-        iconPath: './assets/icons/board_unselected.png',
-        selectedIconPath: './assets/icons/board_selected.png',
       },
       {
         pagePath: 'pages/profile/index',
@@ -48,7 +37,7 @@ export default defineAppConfig({
   },
   window: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#FDFBF7',
+    navigationBarBackgroundColor: '#EAF3FF',
     navigationBarTitleText: 'YORO',
     navigationBarTextStyle: 'black'
   },

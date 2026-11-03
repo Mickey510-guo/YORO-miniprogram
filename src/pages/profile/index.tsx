@@ -34,6 +34,16 @@ function buildIcs(mainlines: Mainline[], nodes: { name: string; plan_date: strin
   return lines.join('\r\n')
 }
 
+const ENTRIES = [
+  { icon: 'i-lucide-calendar-days', title: '排期日历', desc: '日/周时间网格，拖动调计划', url: '/pages/schedule/index' },
+  { icon: 'i-lucide-book-open-text', title: '今日日记 · 回声', desc: '记录心情与做成了什么', url: '/pages/diary/index' },
+  { icon: 'i-lucide-footprints', title: '习惯脚印', desc: '每日/每周的小脚印', url: '/pages/habits/index' },
+  { icon: 'i-lucide-bar-chart-3', title: '数据看板', desc: '已走段数与脚印，互不换算', url: '/pages/stats/index' },
+  { icon: 'i-lucide-library', title: '起点模板库', desc: '按考试类型一键导入', url: '/pages/templates/index' },
+  { icon: 'i-lucide-map', title: '示例地图', desc: '看看一条完整的备考路线', url: '/pages/templates/index?demo=1' },
+  { icon: 'i-lucide-hourglass', title: '静默计时', desc: '免打扰，时间不进地图', url: '/pages/timer/index' },
+]
+
 export default function Profile() {
   const [lines, setLines] = useState<Mainline[]>([])
   const [loading, setLoading] = useState(true)
@@ -53,7 +63,6 @@ export default function Profile() {
   useDidShow(() => { load() })
 
   useEffect(() => {
-    // 轻登录状态展示
     supabase.auth.getSession().then(({ data }) => {
       const email = data.session?.user?.email
       if (email) setNickname(`已登录 · ${email.slice(0, 12)}`)
@@ -89,7 +98,6 @@ export default function Profile() {
         Taro.showToast({ title: `已导出 ${nodeRows.length} 个计划`, icon: 'success' })
         Taro.shareFileMessage({ filePath: path, fileName: 'yoro-plan.ics' }).catch(() => {})
       } else {
-        // H5：用锚点下载
         const blob = new Blob([ics], { type: 'text/calendar' })
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
@@ -110,10 +118,10 @@ export default function Profile() {
   const archived = lines.filter((l) => l.archived)
 
   return (
-    <div className="min-h-screen paper-texture flex flex-col px-4 py-4 gap-5 border-none border-[rgb(229,231,235)] border-[0px] bg-[#f6efdc] bg-none border-[rgb(229,231,235)]">
+    <div className="min-h-screen paper-texture flex flex-col px-4 py-4 gap-4">
       {/* 头部 */}
-      <div className="rounded-sketch bg-card border-2 border-border/30 shadow-sketch-sm p-4 flex items-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-muted border-2 border-primary flex items-center justify-center">
+      <div className="glass rounded-sketch-lg p-4 flex items-center gap-3">
+        <div className="w-14 h-14 rounded-full bg-primary/12 border border-primary/30 flex items-center justify-center">
           <div className="i-lucide-user w-8 h-8 text-primary" />
         </div>
         <div className="flex flex-col gap-0.5">
@@ -121,18 +129,19 @@ export default function Profile() {
           <p className="text-base text-muted-foreground">所有内容仅你可见</p>
         </div>
       </div>
+
       {/* 主线列表 */}
-      <div className="rounded-sketch bg-card border-2 border-border/30 p-4 flex flex-col gap-3">
+      <div className="glass rounded-sketch-lg p-4 flex flex-col gap-3">
         <p className="text-xl text-foreground font-hand">我的主线</p>
         {loading && <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin self-center" />}
         {!loading && active.length === 0 && <p className="text-xl text-muted-foreground">还没有主线，去新建一条</p>}
         {active.map((m) => (
-          <div key={m.id} className="rounded-sketch bg-background border-2 border-border/40 p-3 flex items-center justify-between">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-lg text-foreground">{m.name}</span>
+          <div key={m.id} className="rounded-sketch bg-card border border-border/50 p-3 flex items-center justify-between">
+            <div className="flex flex-col gap-0.5 min-w-0">
+              <span className="text-lg text-foreground truncate">{m.name}</span>
               <span className="text-base text-muted-foreground">考试日 {m.exam_date} · {countdown(m.exam_date)} 天</span>
             </div>
-            <button type="button" className="press-sketch rounded-sketch bg-muted border-2 border-border/40 px-3 py-1" onClick={() => handleArchive(m)}>
+            <button type="button" className="press-sketch rounded-sketch-sm bg-muted border border-border/50 px-3 py-1 flex-none" onClick={() => handleArchive(m)}>
               <span className="text-base text-muted-foreground">归档</span>
             </button>
           </div>
@@ -141,12 +150,12 @@ export default function Profile() {
           <div className="flex flex-col gap-2">
             <p className="text-base text-muted-foreground">已归档（仍可回看）</p>
             {archived.map((m) => (
-              <div key={m.id} className="rounded-sketch bg-muted border-2 border-dashed border-border/50 p-3 flex items-center justify-between">
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-lg text-muted-foreground">{m.name}</span>
+              <div key={m.id} className="rounded-sketch bg-muted/60 border border-dashed border-border/60 p-3 flex items-center justify-between">
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <span className="text-lg text-muted-foreground truncate">{m.name}</span>
                   <span className="text-base text-muted-foreground">考试日 {m.exam_date}</span>
                 </div>
-                <button type="button" className="press-sketch rounded-sketch bg-card border-2 border-border/40 px-3 py-1" onClick={() => handleArchive(m)}>
+                <button type="button" className="press-sketch rounded-sketch-sm bg-card border border-border/50 px-3 py-1 flex-none" onClick={() => handleArchive(m)}>
                   <span className="text-base text-foreground">恢复</span>
                 </button>
               </div>
@@ -154,40 +163,52 @@ export default function Profile() {
           </div>
         )}
       </div>
-      {/* 入口列表 */}
-      <div className="rounded-sketch bg-card border-2 border-border/30 p-2 flex flex-col">
-        {[
-          { icon: 'i-lucide-library', title: '起点模板库', desc: '按考试类型一键导入', url: '/pages/templates/index' },
-          { icon: 'i-lucide-hourglass', title: '静默计时', desc: '免打扰，时间不进地图', url: '/pages/timer/index' },
-          { icon: 'i-lucide-calendar-down', title: '导出到日历', desc: '计划带起止时刻，考试日为全天', action: 'export' as const },
-          { icon: 'i-lucide-map', title: '示例地图', desc: '看看一条完整的备考路线', url: '/pages/templates/index?demo=1' },
-        ].map((item) => (
-          <button key={item.title} type="button" className="press-sketch rounded-sketch-sm flex items-center gap-3 px-3 py-3" onClick={() => (item.action === 'export' ? handleExport() : Taro.navigateTo({ url: item.url! }))}>
+
+      {/* 次级入口 */}
+      <div className="glass rounded-sketch-lg p-2 flex flex-col">
+        {ENTRIES.map((item) => (
+          <button
+            key={item.title}
+            type="button"
+            className="press-sketch rounded-sketch-sm flex items-center gap-3 px-3 py-3"
+            onClick={() => Taro.navigateTo({ url: item.url })}
+          >
             <div className={`${item.icon} w-7 h-7 text-primary flex-none`} />
-            <div className="flex-1 flex flex-col items-start gap-0.5 border-none border-[rgb(229,231,235)] border-[0px] bg-[#ffffff00] bg-none border-[rgb(229,231,235)]">
+            <div className="flex-1 flex flex-col items-start gap-0.5">
               <span className="text-xl text-foreground">{item.title}</span>
               <span className="text-base text-muted-foreground">{item.desc}</span>
             </div>
             <div className="i-lucide-chevron-right w-5 h-5 text-muted-foreground flex-none" />
           </button>
         ))}
+        {/* 导出到日历 */}
+        <button type="button" className="press-sketch rounded-sketch-sm flex items-center gap-3 px-3 py-3" onClick={handleExport}>
+          <div className="i-lucide-calendar-down w-7 h-7 text-primary flex-none" />
+          <div className="flex-1 flex flex-col items-start gap-0.5">
+            <span className="text-xl text-foreground">导出到日历</span>
+            <span className="text-base text-muted-foreground">计划带起止时刻，考试日为全天</span>
+          </div>
+          <div className="i-lucide-chevron-right w-5 h-5 text-muted-foreground flex-none" />
+        </button>
       </div>
+
       {/* 皮肤与版本 */}
-      <div className="rounded-sketch bg-muted border-2 border-dashed border-border/50 p-4 flex items-center justify-between mb-6">
+      <div className="glass rounded-sketch-lg p-4 flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-sm bg-primary border border-ink" />
-          <span className="text-lg text-foreground">当前皮肤：纸地图 · 墨绿</span>
+          <div className="w-6 h-6 rounded-md bg-primary/80 border border-primary" />
+          <span className="text-lg text-foreground">当前皮肤：浅天蓝 · 玻璃</span>
         </div>
         <span className="text-base text-muted-foreground">{fmt(todayStr())}</span>
       </div>
+
       {exporting && (
         <div className="fixed inset-0 z-50 bg-foreground/40 flex items-center justify-center">
-          <div className="rounded-sketch bg-background border-2 border-primary shadow-sketch px-6 py-4 flex items-center gap-2">
+          <div className="glass-strong rounded-sketch px-6 py-4 flex items-center gap-2">
             <div className="w-6 h-6 rounded-full border-4 border-primary border-t-transparent animate-spin" />
             <span className="text-lg text-foreground">正在生成日历文件…</span>
           </div>
         </div>
       )}
     </div>
-  );
+  )
 }

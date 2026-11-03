@@ -8,7 +8,7 @@ import { addDays, fmt, minutesToHM, parseDate, timeToMinutes, todayStr, weekStar
 
 interface Props {
   mainlineId: string
-  onSwitchToMap: () => void
+  onSwitchToMap?: () => void
 }
 
 const HOUR_START = 7
@@ -175,11 +175,6 @@ export default function ScheduleView({ mainlineId }: Props) {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* 固定说明 */}
-      <div className="mx-4 mt-2 rounded-sketch bg-muted px-4 py-2 border-2 border-border/30">
-        <p className="text-base text-muted-foreground">这里排的是打算什么时候走；走完了回地图记一笔，不看用了多久。</p>
-      </div>
-
       {/* 视图切换 + 日期切换 */}
       <div className="flex items-center justify-between px-4 py-3 gap-2">
         <div className="flex rounded-sketch border-2 border-primary overflow-hidden">

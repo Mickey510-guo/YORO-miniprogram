@@ -1,4 +1,4 @@
-// @title 今日日记
+// @title 回声
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Taro, { useDidShow } from '@tarojs/taro'
 import { Image } from '@tarojs/components'

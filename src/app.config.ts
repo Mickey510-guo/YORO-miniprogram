@@ -6,9 +6,7 @@ const pages = [
   'pages/diary/index',
   'pages/habits/index',
   'pages/stats/index',
-  'pages/schedule/index',
   'pages/profile/index',
-  'pages/timer/index',
   'pages/templates/index',
 ]
 
@@ -26,6 +24,18 @@ export default defineAppConfig({
         text: '地图',
         iconPath: './assets/icons/map_unselected.png',
         selectedIconPath: './assets/icons/map_selected.png',
+      },
+      {
+        pagePath: 'pages/diary/index',
+        text: '回声',
+        iconPath: './assets/icons/echo_unselected.png',
+        selectedIconPath: './assets/icons/echo_selected.png',
+      },
+      {
+        pagePath: 'pages/habits/index',
+        text: '习惯',
+        iconPath: './assets/icons/habits_unselected.png',
+        selectedIconPath: './assets/icons/habits_selected.png',
       },
       {
         pagePath: 'pages/profile/index',

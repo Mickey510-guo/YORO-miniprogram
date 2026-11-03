@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '今日日记',
+  navigationBarTitleText: '回声',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 })

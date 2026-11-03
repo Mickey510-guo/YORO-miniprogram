@@ -5,6 +5,8 @@ import { getMainlines, getMainlineDetail } from '@/db/api'
 import type { MainlineDetail } from '@/db/types'
 import { countdown, prettyDate, todayStr } from '@/utils/date'
 import Roadmap from '@/components/Roadmap'
+import ScheduleView from '@/components/ScheduleView'
+import TimerPanel from '@/components/TimerPanel'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -13,6 +15,8 @@ export default function Home() {
   const [activeId, setActiveId] = useState('')
   const [detail, setDetail] = useState<MainlineDetail | null>(null)
   const [showGuide, setShowGuide] = useState(false)
+  const [view, setView] = useState<'map' | 'schedule'>('map')
+  const [timerOpen, setTimerOpen] = useState(false)
   const mapVersion = useRef(0)
 
   const loadAll = useCallback(async () => {
@@ -211,8 +215,26 @@ export default function Home() {
           </button>
         </div>
 
-        {/* 路线图：单个纵向玻璃容器 */}
-        {detail ? (
+        {/* 视图切换 + 静默计时入口 */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="glass rounded-full p-1 flex items-center gap-1">
+            <button type="button" className={`press-sketch rounded-full px-4 py-1 ${view === 'map' ? 'bg-primary' : ''}`} onClick={() => setView('map')}>
+              <span className={`text-base ${view === 'map' ? 'text-primary-foreground' : 'text-foreground'}`}>路线图</span>
+            </button>
+            <button type="button" className={`press-sketch rounded-full px-4 py-1 ${view === 'schedule' ? 'bg-primary' : ''}`} onClick={() => setView('schedule')}>
+              <span className={`text-base ${view === 'schedule' ? 'text-primary-foreground' : 'text-foreground'}`}>排期</span>
+            </button>
+          </div>
+          <button type="button" className="press-sketch glass rounded-full px-4 py-1 flex items-center gap-1" onClick={() => setTimerOpen(true)}>
+            <div className="i-lucide-hourglass w-4 h-4 text-primary" />
+            <span className="text-base text-foreground">静默计时</span>
+          </button>
+        </div>
+
+        {/* 路线图 / 排期视图 */}
+        {view === 'schedule' && detail ? (
+          <ScheduleView mainlineId={activeId} onSwitchToMap={() => setView('map')} />
+        ) : view === 'map' && detail ? (
           <Roadmap
             key={`${activeId}-${mapVersion.current}`}
             detail={detail}
@@ -237,6 +259,8 @@ export default function Home() {
 
       {/* 底部日期 */}
       <p className="fixed left-0 right-0 bottom-24 text-center text-sm text-muted-foreground pointer-events-none">{prettyDate(todayStr())}</p>
+
+      <TimerPanel open={timerOpen} onClose={() => setTimerOpen(false)} />
     </div>
   )
 }

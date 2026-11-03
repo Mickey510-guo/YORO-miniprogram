@@ -35,13 +35,9 @@ function buildIcs(mainlines: Mainline[], nodes: { name: string; plan_date: strin
 }
 
 const ENTRIES = [
-  { icon: 'i-lucide-calendar-days', title: '排期日历', desc: '日/周时间网格，拖动调计划', url: '/pages/schedule/index' },
-  { icon: 'i-lucide-book-open-text', title: '今日日记 · 回声', desc: '记录心情与做成了什么', url: '/pages/diary/index' },
-  { icon: 'i-lucide-footprints', title: '习惯脚印', desc: '每日/每周的小脚印', url: '/pages/habits/index' },
   { icon: 'i-lucide-bar-chart-3', title: '数据看板', desc: '已走段数与脚印，互不换算', url: '/pages/stats/index' },
   { icon: 'i-lucide-library', title: '起点模板库', desc: '按考试类型一键导入', url: '/pages/templates/index' },
   { icon: 'i-lucide-map', title: '示例地图', desc: '看看一条完整的备考路线', url: '/pages/templates/index?demo=1' },
-  { icon: 'i-lucide-hourglass', title: '静默计时', desc: '免打扰，时间不进地图', url: '/pages/timer/index' },
 ]
 
 export default function Profile() {

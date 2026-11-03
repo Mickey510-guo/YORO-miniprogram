@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '习惯支线',
+  navigationBarTitleText: '习惯',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 })

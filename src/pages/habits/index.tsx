@@ -1,4 +1,4 @@
-// @title 习惯支线
+// @title 习惯
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Taro, { useDidShow } from '@tarojs/taro'
 import { addFootprint, createBranches, archiveBranch, getFootprints, getHabitBranches, updateBranchRule } from '@/db/api'

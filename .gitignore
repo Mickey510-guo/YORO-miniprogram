@@ -28,6 +28,13 @@ lerna-debug.log*
 *.code-workspace
 
 # local env files
+.env
+.env.development
+.env.production
+.env.test
+.env.*
+!.env.example
+
 .env*.local
 *.rest
 *.http

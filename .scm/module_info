@@ -1,8 +1,0 @@
-[build_info]
-enable-ccover = 
-source-with-patch = no
-the-build-args-of-CC = 
-module = baidu/miaoda/react-taro-template
-revision = 
-git_url = ssh://guofeng17@icode.baidu.com:8235/baidu/miaoda/react-taro-template
-git_version = 14a83dbe03c8f18fec2c7c20d408dd80f7a9ed01

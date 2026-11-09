@@ -28,16 +28,14 @@ lerna-debug.log*
 *.code-workspace
 
 # local env files
+.env*.local
+*.rest
+*.http
 .env
 .env.development
 .env.production
 .env.test
-.env.*
-!.env.example
 
-.env*.local
-*.rest
-*.http
 
 # 上传沙盒服务的zip
 project.zip

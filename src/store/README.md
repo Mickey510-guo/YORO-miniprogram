@@ -1,3 +1,7 @@
+# 欢迎使用你的秒哒应用代码包
+秒哒应用链接
+    URL:https://www.miaoda.cn/projects/app-fe8g6wiaw16p
+
 # Store
 
 This folder contains global state management using Zustand for cross-page state sharing.
